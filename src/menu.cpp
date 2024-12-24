@@ -50,6 +50,11 @@ Menu::Menu(sf::RenderWindow& window, float menux, float menuy, int index, std::v
     }
 }
 
+void Menu::draw()
+{
+
+}
+
 void Menu::font_deleter::free_font(sf::Font* ptr)
 {
     delete ptr;

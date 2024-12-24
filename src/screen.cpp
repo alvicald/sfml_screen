@@ -39,23 +39,17 @@ Screen::Screen(std::uint32_t width, std::uint32_t height):
 void Screen::run()
 {
     sf::Clock clock;
-    sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while (m_main_window->isOpen())
     {
         sf::Time elapsedTime = clock.restart();
-        timeSinceLastUpdate += elapsedTime;
 
-        while (timeSinceLastUpdate > TimePerFrame)
-        {
-            timeSinceLastUpdate -= TimePerFrame;
-            updateEvent();
-        }
-
+        updateEvent();
         updateStatistic(elapsedTime);
         render();
 
         sf::Time sleepTime = TimePerFrame - clock.getElapsedTime();
+
         if (sleepTime > sf::Time::Zero)
             sf::sleep(sleepTime);
     }

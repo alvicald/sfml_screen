@@ -17,6 +17,7 @@ class Font;
 class Text;
 
 class RenderWindow;
+
 } // namespace sf
 
 namespace screen{
@@ -74,15 +75,26 @@ private:
     ::sf::Color m_outline_menu_item_text_color;
 
     //!Settings of menu items
-    void setInitText(sf::Text& text, sf::String const& str, float xpos, float ypos);
+    void setInitText(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
 
 public:
-    // Конструктор
-    // Параметры: ссылка на графическое окно, координаты игрового меню по x и y
-    // количество пунктов меню, массив названий пунктов меню, размер шрифта, шаг между пунктами меню
-    Menu(sf::RenderWindow& window, float menux, float menuy,
-             int index, std::vector< sf::String > const& name, int sizeFont = 60, int step = 80);
+    Menu(::sf::RenderWindow& window, float menux, float menuy,
+             int index, std::vector< ::sf::String > const& name, int sizeFont = 60, int step = 80);
 
+    //! Draw menu on render window
+    void draw();
+
+    //! Up of choose of menu item
+    void move_up();
+
+    //! Down of choose of menu item
+    void move_down();
+
+    //! Set colors of menu
+    void setColorTextMenu(::sf::Color menColor, ::sf::Color ChoColor, ::sf::Color BordColor);
+
+    //! Align menu position
+    void align_menu(int posx);
 
 };
 
