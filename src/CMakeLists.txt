@@ -10,16 +10,6 @@ set(HDRS_SRCS
 	error.h
 )
 
-if (WIN32)
-	set(SFML_DLL_LIBS_FOR_COPY "")
-	file(GLOB DLL_FILES "${SFML_LIBRARY_DIR}/*.dll")
-	foreach(file ${DLL_FILES})
-		get_filename_component(file_name ${file} NAME)
-		list(APPEND SFML_DLL_LIBS_FOR_COPY ${file_name})
-	endforeach()
-	message(STATUS "SFML_DLL_LIBS_FOR_COPY = ${SFML_DLL_LIBS_FOR_COPY}")
-endif()
-
 add_executable(${TARGET} ${HDRS_SRCS})
 
 if (WIN32)
