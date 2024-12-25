@@ -1,4 +1,5 @@
 #include <iostream>
+#include <error.h>
 
 #include <screen.h>
 #include <multicolored_screen.h>
@@ -20,20 +21,27 @@ Screen::Screen(std::uint32_t width, std::uint32_t height):
     m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(width, height), "Screen"));
     m_statistic_text.reset(new ::sf::Text);
     m_font.reset(new ::sf::Font);
-    m_menu.reset(new Menu(*m_main_window,
-                          200,
-                          200,
-                          10,
-                          std::vector< ::sf::String > {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-                          13,
-                          5));
+    //m_menu.reset(new Menu(*m_main_window,
+    //                      200,
+    //                      200,
+    //                      10,
+    //                      std::vector< ::sf::String > {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
+    //                      13,
+    //                      5));
 
-    if (m_font->loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"))
+
+    try
     {
+        m_font->loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
         m_statistic_text->setFont(*m_font);
         m_statistic_text->setPosition(5.f, 5.f);
         m_statistic_text->setCharacterSize(10);
     }
+    catch(...)
+    { 
+    
+    }
+    
 }
 
 void Screen::run()
