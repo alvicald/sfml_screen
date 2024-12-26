@@ -1,5 +1,7 @@
 set(TARGET Screen)
 
+set(TARGET_BIN_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
 set(HDRS_SRCS
 	multicolored_screen.h
 	main.cpp
@@ -13,9 +15,9 @@ set(HDRS_SRCS
 add_executable(${TARGET} ${HDRS_SRCS})
 
 add_custom_command(TARGET ${TARGET} POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/bin"
+	COMMAND ${CMAKE_COMMAND} -E make_directory "${TARGET_BIN_DIRECTORY}"
 	COMMAND ${CMAKE_COMMAND} -E copy_if_different
-	$<TARGET_FILE:${TARGET}> "${CMAKE_SOURCE_DIR}/bin"
+	$<TARGET_FILE:${TARGET}> "${TARGET_BIN_DIRECTORY}"
 )
 
 if (WIN32)
@@ -23,7 +25,7 @@ if (WIN32)
 		add_custom_command(
 			TARGET ${TARGET} POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			"${DLL_FILE}" "${CMAKE_SOURCE_DIR}/bin"
+			"${DLL_FILE}" "${TARGET_BIN_DIRECTORY}"
 		)
 	endforeach()
 endif()
