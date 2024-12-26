@@ -40,8 +40,3 @@ target_link_directories(Screen PRIVATE ${SFML_LIBRARY_DIR})
 target_include_directories(Screen PRIVATE ${SFML_INCLUDE_DIR} ${CMAKE_SOURCE_DIR}/src)
 
 target_link_libraries(Screen ${SFML_LIBS})
-
-# add_custom_command(TARGET my_executable POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#         $<TARGET_FILE:my_executable> ${CMAKE_SOURCE_DIR}/bin
-# )
