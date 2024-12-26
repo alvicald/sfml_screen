@@ -13,14 +13,11 @@ set(HDRS_SRCS
 add_executable(${TARGET} ${HDRS_SRCS})
 
 if (WIN32)
-	foreach(DLL ${SFML_DLL_LIBS_FOR_COPY})
-		set(CURRENT_LIB ${SFML_LIBRARY_DIR}/${DLL})
-		message(STATUS "CURRENT_LIB = ${CURRENT_LIB}")
+	foreach(DLL_FILE ${SFML_DLL_LIBS_FOR_COPY})
 		add_custom_command(
 			TARGET Screen POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			"${CURRENT_LIB}" $<TARGET_FILE_DIR:Screen>
-			COMMENT "Copying ${CURRENT_LIB} to output directory"
-    )
+			"${DLL_FILE}" $<TARGET_FILE_DIR:Screen>
+		)
 	endforeach()
 endif()

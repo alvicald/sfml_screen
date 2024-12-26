@@ -20,20 +20,22 @@ endif()
 if (UNIX)
 	if (ARCH_64BITS)
 		set(SFML_LIBRARY_DIR "${SFML_DIR}/lib/linux")
-		set(SFML_LIBRARY_EXTENSION "*.so")
-		get_library_list("${SFML_LIBRARY_DIR}" "${SFML_LIBRARY_EXTENSION}" SFML_LIBS)
+		get_file_name_list("${SFML_LIBRARY_DIR}" "*.so" False SFML_LIBS)
 	elseif(ARCH_32BITS)
 		message(FATAL_ERROR "Not support libraries for x86 system. Maybe will be added latter")
 	endif()
 elseif(WIN32)
 	if (ARCH_64BITS)
 		set(SFML_LIBRARY_DIR "${SFML_DIR}/lib/windows")
-		get_library_list("${SFML_LIBRARY_DIR}" "*.lib" SFML_LIBS)
-		get_library_list("${SFML_LIBRARY_DIR}" "*.dll" SFML_DLL_LIBS_FOR_COPY)
+		get_file_name_list("${SFML_LIBRARY_DIR}" "*.lib" False SFML_LIBS)
+		get_file_name_list("${SFML_LIBRARY_DIR}" "*.dll" True SFML_DLL_LIBS_FOR_COPY)
 	elseif(ARCH_32BITS)
 		message(FATAL_ERROR "Not support libraries for x86 system. Maybe will be added latter")
 	endif()
 endif()
+
+message(STATUS "SFML_LIBS = ${SFML_LIBS}")
+
 
 add_subdirectory(src)
 
@@ -41,3 +43,8 @@ target_link_directories(Screen PRIVATE ${SFML_LIBRARY_DIR})
 target_include_directories(Screen PRIVATE ${SFML_INCLUDE_DIR} ${CMAKE_SOURCE_DIR}/src)
 
 target_link_libraries(Screen ${SFML_LIBS})
+
+# add_custom_command(TARGET my_executable POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#         $<TARGET_FILE:my_executable> ${CMAKE_SOURCE_DIR}/bin
+# )
