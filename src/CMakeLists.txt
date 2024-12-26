@@ -21,7 +21,7 @@ add_custom_command(TARGET ${TARGET} POST_BUILD
 if (WIN32)
 	foreach(DLL_FILE ${SFML_DLL_LIBS_FOR_COPY})
 		add_custom_command(
-			TARGET Screen POST_BUILD
+			TARGET ${TARGET} POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
 			"${DLL_FILE}" "${CMAKE_SOURCE_DIR}/bin"
 		)
