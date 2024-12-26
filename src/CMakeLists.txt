@@ -12,12 +12,20 @@ set(HDRS_SRCS
 
 add_executable(${TARGET} ${HDRS_SRCS})
 
+add_custom_command(TARGET ${TARGET} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/bin"
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different
+	$<TARGET_FILE:${TARGET}> "${CMAKE_SOURCE_DIR}/bin"
+)
+
 if (WIN32)
 	foreach(DLL_FILE ${SFML_DLL_LIBS_FOR_COPY})
 		add_custom_command(
 			TARGET Screen POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			"${DLL_FILE}" $<TARGET_FILE_DIR:Screen>
+			"${DLL_FILE}" "${CMAKE_SOURCE_DIR}/bin"
 		)
 	endforeach()
 endif()
+
+

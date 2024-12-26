@@ -34,9 +34,6 @@ elseif(WIN32)
 	endif()
 endif()
 
-message(STATUS "SFML_LIBS = ${SFML_LIBS}")
-
-
 add_subdirectory(src)
 
 target_link_directories(Screen PRIVATE ${SFML_LIBRARY_DIR})
