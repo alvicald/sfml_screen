@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "general_config.h"
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
@@ -21,6 +22,8 @@ class Font;
 } // namespace sf
 
 namespace screen {
+
+static char const* font_path { RESOURCE_DIR"/font/showg.TTF" };
 
 //! Menu forward declaration
 class Menu;

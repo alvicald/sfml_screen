@@ -7,8 +7,13 @@ include(cmake/Functions.cmake)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(PROJECT_SOURCE_DIRECTORY ${CMAKE_SOURCE_DIR}/src)
 set(SFML_DIR "${CMAKE_SOURCE_DIR}/SFML")
 set(SFML_INCLUDE_DIR "${SFML_DIR}/include")
+set(PROJECT_RESOURCE_DIR ${CMAKE_SOURCE_DIR}/resources)
+
+get_filename_component(RESOURCE_DIR ${PROJECT_RESOURCE_DIR} REALPATH)
+configure_file(general_config.h.in ${PROJECT_SOURCE_DIRECTORY}/general_config.h)
 
 check_type_size(void* SIZEOF_VOID_PTR)
 if(${SIZEOF_VOID_PTR} STREQUAL "4")
@@ -37,6 +42,6 @@ endif()
 add_subdirectory(src)
 
 target_link_directories(Screen PRIVATE ${SFML_LIBRARY_DIR})
-target_include_directories(Screen PRIVATE ${SFML_INCLUDE_DIR} ${CMAKE_SOURCE_DIR}/src)
+target_include_directories(Screen PRIVATE ${SFML_INCLUDE_DIR} ${PROJECT_SOURCE_DIRECTORY})
 
 target_link_libraries(Screen ${SFML_LIBS})

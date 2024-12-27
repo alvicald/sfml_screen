@@ -12,36 +12,40 @@
 
 namespace screen{
 
-const sf::Time Screen::TimePerFrame = sf::seconds(1.f / 60.f);
+sf::Time const Screen::TimePerFrame = sf::seconds(1.f / 60.f);
 
 Screen::Screen(std::uint32_t width, std::uint32_t height):
     m_width(width),
     m_height(height)
 {
-    m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(width, height), "Screen"));
-    m_statistic_text.reset(new ::sf::Text);
-    m_font.reset(new ::sf::Font);
-    //m_menu.reset(new Menu(*m_main_window,
-    //                      200,
-    //                      200,
-    //                      10,
-    //                      std::vector< ::sf::String > {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-    //                      13,
-    //                      5));
-
-
     try
     {
-        m_font->loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
+        m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(width, height), "Screen"));
+        m_statistic_text.reset(new ::sf::Text);
+        m_font.reset(new ::sf::Font);
+        //m_menu.reset(new Menu(*m_main_window,
+        //                      200,
+        //                      200,
+        //                      10,
+        //                      std::vector< ::sf::String > {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
+        //                      13,
+        //                      5));
+
+        if (!m_font->loadFromFile(font_path))
+            throw std::runtime_error("Loading font error");
+
         m_statistic_text->setFont(*m_font);
         m_statistic_text->setPosition(5.f, 5.f);
         m_statistic_text->setCharacterSize(10);
     }
-    catch(...)
-    { 
-    
+    catch(std::bad_alloc& e)
+    {
+        std::cout << "Memory allocation failure: " << e.what() << '\n';
     }
-    
+    catch(std::exception& e)
+    { 
+        std::cout << e.what() << '\n';
+    }
 }
 
 void Screen::run()
