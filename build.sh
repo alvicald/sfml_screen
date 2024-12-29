@@ -11,8 +11,7 @@ if [ -d ${BIN_DIR} ]; then
     rm -rf ${BIN_DIR}
 fi
 
-cmake -S . -B build
-cmake --build build
+cmake -S . -B build && cmake --build build
 
 if [ $? -eq 0 ]; then
     echo "Build finished."
