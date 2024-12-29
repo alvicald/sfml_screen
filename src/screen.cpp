@@ -1,5 +1,4 @@
 #include <iostream>
-#include <error.h>
 
 #include <screen.h>
 #include <multicolored_screen.h>
@@ -31,12 +30,17 @@ Screen::Screen(std::uint32_t width, std::uint32_t height):
         //                      13,
         //                      5));
 
-        if (!m_font->loadFromFile(font_path))
-            throw std::runtime_error("Loading font error");
+        if (m_font)
+        {
+            if (!m_font->loadFromFile(font_path))
+                throw std::runtime_error("Loading font error");
 
-        m_statistic_text->setFont(*m_font);
-        m_statistic_text->setPosition(5.f, 5.f);
-        m_statistic_text->setCharacterSize(10);
+            m_statistic_text->setFont(*m_font);
+            m_statistic_text->setPosition(5.f, 5.f);
+            m_statistic_text->setCharacterSize(10);
+        }
+        else
+            throw std::runtime_error("Font pointer initialize error.");
     }
     catch(std::bad_alloc& e)
     {
@@ -61,7 +65,6 @@ void Screen::run()
         render();
 
         sf::Time sleepTime = TimePerFrame - clock.getElapsedTime();
-
         if (sleepTime > sf::Time::Zero)
             sf::sleep(sleepTime);
     }

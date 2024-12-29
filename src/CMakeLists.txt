@@ -9,7 +9,6 @@ set(HDRS_SRCS
 	screen.cpp
 	menu.h
 	menu.cpp
-	error.h
 )
 
 add_executable(${TARGET} ${HDRS_SRCS})
