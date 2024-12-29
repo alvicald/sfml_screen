@@ -1,5 +1,16 @@
 #!/bin/bash
 
+BUILD_DIR="$(dirname $(realpath "$0"))/build"
+BIN_DIR="$(dirname $(realpath "$0"))/bin"
+
+if [ -d ${BUILD_DIR} ]; then
+    rm -rf ${BUILD_DIR}
+fi
+
+if [ -d ${BIN_DIR} ]; then
+    rm -rf ${BIN_DIR}
+fi
+
 cmake -S . -B build
 cmake --build build
 
