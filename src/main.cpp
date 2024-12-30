@@ -1,8 +1,11 @@
 #include <screen.h>
+#include <context.h>
+#include <general_config.h>
 
 int main()
 {
-    ::screen::Screen scr(1280, 720);
+    ::screen::ScreenContext context { CONFIG_DIR"/config.json" };
+    ::screen::Screen scr { context };
     scr.run();
 	return 0;
 }

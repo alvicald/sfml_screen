@@ -9,17 +9,17 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Sleep.hpp>
 
-namespace screen{
+namespace screen {
 
 sf::Time const Screen::TimePerFrame = sf::seconds(1.f / 60.f);
 
-Screen::Screen(std::uint32_t width, std::uint32_t height):
-    m_width(width),
-    m_height(height)
+Screen::Screen(ScreenContext const& context):
+    m_width(context.m_screen_width),
+    m_height(context.m_screen_height)
 {
     try
     {
-        m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(width, height), "Screen"));
+        m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(m_width, m_height), "Screen"));
         m_statistic_text.reset(new ::sf::Text);
         m_font.reset(new ::sf::Font);
         //m_menu.reset(new Menu(*m_main_window,

@@ -4,11 +4,12 @@
 #include <memory>
 
 #include "general_config.h"
+#include <context.h>
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
 
-namespace sf{
+namespace sf {
 
 //! sf::RenderWindow forward declaration
 class RenderWindow;
@@ -23,6 +24,7 @@ class Font;
 
 namespace screen {
 
+//! Path to font resource
 static char const* font_path { RESOURCE_DIR"/font/showg.TTF" };
 
 //! Menu forward declaration
@@ -31,7 +33,7 @@ class Menu;
 class Screen
 {
 public:
-    explicit Screen(uint32_t width, uint32_t height);
+    explicit Screen(ScreenContext const&);
 
     //! Run the screen program
     void run();

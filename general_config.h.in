@@ -2,5 +2,6 @@
 #define GENERAL_CONFIG_H_IN_
 
 #define RESOURCE_DIR "@RESOURCE_DIR@"
+#define CONFIG_DIR "@CONFIG_DIR@"
 
 #endif // GENERAL_CONFIG_H_IN_
