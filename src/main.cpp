@@ -4,7 +4,7 @@
 
 int main()
 {
-    ::screen::ScreenContext context { CONFIG_DIR"/config.json" };
+    ::screen::ScreenContext context { CONFIG_DIR"/config.cfg" };
     ::screen::Screen scr { context };
     scr.run();
 	return 0;
