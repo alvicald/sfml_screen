@@ -96,10 +96,10 @@ private:
 
 private:
     //! Screen width
-    std::uint32_t m_width;
+    std::uint32_t m_width { 0 };
 
     //! Screen height
-    std::uint32_t m_height;
+    std::uint32_t m_height { 0 };
 
     //! Pointer to main render window
     std::unique_ptr< ::sf::RenderWindow, render_window_deleter > m_main_window;
@@ -111,7 +111,7 @@ private:
     ::sf::Time m_statistic_update_time;
 
     //! Statistic frames count
-    std::uint16_t m_statistics_frames_count;
+    std::uint16_t m_statistics_frames_count { 0 };
 
     //! Statistic information text
     std::unique_ptr< ::sf::Text, text_deleter > m_statistic_text;

@@ -78,7 +78,7 @@ void Menu::move_up()
     if (--m_main_menu_selected >= 0)
     {
         m_main_menu.at(m_main_menu_selected).setFillColor(m_choose_menu_item_text_color);
-        m_main_menu.at(m_main_menu_selected + 1).setFillColor(m_menu_item_text_color);
+        m_main_menu.at(static_cast< std::size_t >(m_main_menu_selected) + 1).setFillColor(m_menu_item_text_color);
     }
     else
     {
@@ -92,7 +92,7 @@ void Menu::move_down()
 {
     if (++m_main_menu_selected < m_main_menu.size())
     {
-        m_main_menu.at(m_main_menu_selected - 1).setFillColor(m_menu_item_text_color);
+        m_main_menu.at(static_cast< std::size_t >(m_main_menu_selected) - 1).setFillColor(m_menu_item_text_color);
         m_main_menu.at(m_main_menu_selected).setFillColor(m_choose_menu_item_text_color);
     }
     else
