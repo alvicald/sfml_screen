@@ -22,6 +22,13 @@ class RenderWindow;
 
 namespace screen{
 
+enum class MenuAlignment
+{
+    left,
+    center,
+    right
+};
+
 class Menu
 {
 private:
@@ -48,16 +55,13 @@ private:
     std::uint16_t m_menu_y;
 
     //! Interval beetwen menu items
-    std::uint8_t m_menu_step;
-
-    //! Menu elements count
-    std::uint8_t m_menu_el_count;
+    std::uint16_t m_menu_step;
 
     //! Menu font size
-    std::uint8_t m_size_font;
+    std::uint16_t m_size_font;
 
     //! Selected menu item number
-    std::uint8_t m_main_menu_selected;
+    std::int16_t m_main_menu_selected;
 
     //! Menu font object
     std::unique_ptr< ::sf::Font, font_deleter > m_font;
@@ -78,8 +82,8 @@ private:
     void setInitText(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
 
 public:
-    Menu(::sf::RenderWindow& window, float menux, float menuy,
-             int index, std::vector< ::sf::String > const& name, int sizeFont = 60, int step = 80);
+    Menu(::sf::RenderWindow& window, float menux, float menuy, 
+        std::vector< ::sf::String > const& names, int sizeFont = 60, int step = 80);
 
     //! Draw menu on render window
     void draw();
@@ -94,7 +98,9 @@ public:
     void setColorTextMenu(::sf::Color menColor, ::sf::Color ChoColor, ::sf::Color BordColor);
 
     //! Align menu position
-    void align_menu(int posx);
+    void align_menu(MenuAlignment align);
+
+    std::int16_t get_menu_select_number() const;
 
 };
 

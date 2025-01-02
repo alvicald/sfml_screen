@@ -1,17 +1,17 @@
 #include <iostream>
 
 #include <screen.h>
-#include <multicolored_screen.h>
 #include <menu.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Sleep.hpp>
+#include <SFML/Window/Event.hpp>
 
 namespace screen {
 
-sf::Time const Screen::TimePerFrame = sf::seconds(1.f / 60.f);
+    sf::Time const Screen::TimePerFrame { sf::seconds(1.f / 60.f) };
 
 Screen::Screen(ScreenContext const& context):
     m_width(context.m_screen_width),
@@ -19,20 +19,25 @@ Screen::Screen(ScreenContext const& context):
 {
     try
     {
-        m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(m_width, m_height), "Screen"));
+        auto screen_style { context.m_is_fullscreen == true ? static_cast< std::uint32_t >(::sf::Style::Fullscreen) : static_cast<std::uint32_t>(::sf::Style::Default) };
+        m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(m_width, m_height), "Screen", screen_style));
         m_statistic_text.reset(new ::sf::Text);
         m_font.reset(new ::sf::Font);
-        //m_menu.reset(new Menu(*m_main_window,
-        //                      200,
-        //                      200,
-        //                      10,
-        //                      std::vector< ::sf::String > {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-        //                      13,
-        //                      5));
+        m_menu.reset(new Menu(*m_main_window,
+                              m_width / 2,
+                              m_height / 2,
+                              std::vector< ::sf::String > {"Changing color mode", "Gradient mode"},
+                              30,
+                              30));
+
+        if (m_menu)
+        {
+            m_menu->align_menu(MenuAlignment::center);
+        }
 
         if (m_font)
         {
-            if (!m_font->loadFromFile(font_path))
+            if (!m_font->loadFromFile(RESOURCE_DIR"/font/showg.TTF"))
                 throw std::runtime_error("Loading font error");
 
             m_statistic_text->setFont(*m_font);
@@ -72,21 +77,36 @@ void Screen::run()
 
 void Screen::updateEvent()
 {
-    while (m_main_window->pollEvent(m_event))
+    ::sf::Event ev;
+
+    while (m_main_window->pollEvent(ev))
     {
-        switch (m_event.type)
+        switch (ev.type)
         {
         case ::sf::Event::Closed:
             m_main_window->close();
             break;
-        case ::sf::Event::KeyPressed:
-            switch (m_event.key.code)
+        case ::sf::Event::KeyReleased:
+            switch (ev.key.code)
             {
-            case ::sf::Keyboard::M:
-                ::screen::color_changing_screen::change_state();
+            case ::sf::Keyboard::Escape:
+                m_main_window->close();
                 break;
-            case ::sf::Keyboard::Z:
-                m_main_window->clear(sf::Color(0, 0, 0));
+            case ::sf::Keyboard::Up:
+                m_menu->move_up();
+                break;
+            case ::sf::Keyboard::Down:
+                m_menu->move_down();
+                break;
+            case ::sf::Keyboard::Return:
+                switch (m_menu->get_menu_select_number())
+                {
+                case 0:
+                    m_color_changing_screen.change_state();
+                    break;
+                default:
+                    break;
+                }
                 break;
             default:
                 break;
@@ -115,15 +135,9 @@ void Screen::updateStatistic(sf::Time elapsedTime)
 
 void Screen::render()
 {
-    if (::screen::color_changing_screen::get_state())
-    {
-        auto cls = ::screen::color_changing_screen()();
-        m_main_window->clear(sf::Color(std::get<0>(cls), std::get<1>(cls), std::get<2>(cls)));
-    }
-    else
-        m_main_window->clear();
-
+    m_color_changing_screen.draw(*m_main_window);
     m_main_window->draw(*m_statistic_text);
+    m_menu->draw();
     m_main_window->display();
 }
 

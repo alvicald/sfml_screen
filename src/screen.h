@@ -5,8 +5,8 @@
 
 #include "general_config.h"
 #include <context.h>
+#include <color_changing_screen.h>
 
-#include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
 
 namespace sf {
@@ -23,9 +23,6 @@ class Font;
 } // namespace sf
 
 namespace screen {
-
-//! Path to font resource
-static char const* font_path { RESOURCE_DIR"/font/showg.TTF" };
 
 //! Menu forward declaration
 class Menu;
@@ -107,9 +104,6 @@ private:
     //! Pointer to main render window
     std::unique_ptr< ::sf::RenderWindow, render_window_deleter > m_main_window;
 
-    //! Event object for render window handling
-    ::sf::Event m_event;
-
     //! Text font
     std::unique_ptr< ::sf::Font, font_deleter > m_font;
 
@@ -117,13 +111,16 @@ private:
     ::sf::Time m_statistic_update_time;
 
     //! Statistic frames count
-    std::size_t m_statistics_frames_count;
+    std::uint16_t m_statistics_frames_count;
 
     //! Statistic information text
     std::unique_ptr< ::sf::Text, text_deleter > m_statistic_text;
 
     //! Menu object
     std::unique_ptr< Menu, menu_deleter > m_menu;
+
+    //! Color changing screen mode
+    ColorChangingScreen m_color_changing_screen;
 
     //! Constant time per frame
     static ::sf::Time const TimePerFrame;

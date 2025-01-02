@@ -16,6 +16,7 @@ ScreenContext::ScreenContext(char const* config_file)
 
         fin >> m_screen_width;
         fin >> m_screen_height;
+        fin >> m_is_fullscreen;
 
         fin.close();
     }

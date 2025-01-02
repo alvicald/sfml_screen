@@ -19,6 +19,9 @@ private:
 
     //! Screen height
     std::uint32_t m_screen_height { 0 };
+
+    //! Fullscreen mode
+    bool m_is_fullscreen{ false };
 };
 
 } // namespace screen

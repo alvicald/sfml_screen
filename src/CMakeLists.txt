@@ -3,14 +3,15 @@ set(TARGET Screen)
 set(TARGET_BIN_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(HDRS_SRCS
-	multicolored_screen.h
+	color_changing_screen.cpp
+	color_changing_screen.h
 	main.cpp
 	screen.h
 	screen.cpp
 	menu.h
 	menu.cpp
-        context.h
-        context.cpp
+	context.h
+	context.cpp
 )
 
 add_executable(${TARGET} ${HDRS_SRCS})
