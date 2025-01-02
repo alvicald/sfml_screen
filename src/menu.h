@@ -16,6 +16,7 @@ class Font;
 //! sf::Text forward declaration
 class Text;
 
+//! sf::RenderWindow forward declaration
 class RenderWindow;
 
 } // namespace sf
@@ -24,65 +25,20 @@ namespace screen{
 
 enum class MenuAlignment
 {
+    //! Alignment to left side
     left,
+
+    //! Alignment to center
     center,
+
+    //! Alignment to right side
     right
 };
 
 class Menu
 {
-private:
-    //! Deleter of sf::Font pointer
-    struct font_deleter
-    {
-        void operator()(::sf::Font* ptr)
-        {
-            if (ptr != nullptr)
-                free_font(ptr);
-        }
-    private:
-        void free_font(::sf::Font*);
-    };
-
-private:
-    //! Reference to main render window
-    ::sf::RenderWindow& m_render_window;
-
-    //! Menu position x
-    std::uint16_t m_menu_x;
-
-    //! Menu position y
-    std::uint16_t m_menu_y;
-
-    //! Interval beetwen menu items
-    std::uint16_t m_menu_step;
-
-    //! Menu font size
-    std::uint16_t m_size_font;
-
-    //! Selected menu item number
-    std::int16_t m_main_menu_selected;
-
-    //! Menu font object
-    std::unique_ptr< ::sf::Font, font_deleter > m_font;
-
-    //! Menu items names
-    std::vector< ::sf::Text > m_main_menu;
-
-    //!Menu item text color
-    ::sf::Color m_menu_item_text_color;
-
-    //!Choose menu item text color
-    ::sf::Color m_choose_menu_item_text_color;
-
-    //!Outline menu item text color
-    ::sf::Color m_outline_menu_item_text_color;
-
-    //!Settings of menu items
-    void setInitText(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
-
 public:
-    Menu(::sf::RenderWindow& window, float menux, float menuy, 
+    Menu(::sf::RenderWindow& window, float menux, float menuy,
         std::vector< ::sf::String > const& names, int sizeFont = 60, int step = 80);
 
     //! Draw menu on render window
@@ -100,8 +56,58 @@ public:
     //! Align menu position
     void align_menu(MenuAlignment align);
 
+    //! Get current selected menu item number
     std::int16_t get_menu_select_number() const;
 
+private:
+    //!Settings of menu items
+    void setInitText(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
+
+    //! Deleter of sf::Font pointer
+    struct font_deleter
+    {
+        void operator()(::sf::Font* ptr)
+        {
+            if (ptr != nullptr)
+                free_font(ptr);
+        }
+    private:
+        void free_font(::sf::Font*);
+    };
+
+private:
+    //! Reference to main render window
+    ::sf::RenderWindow& m_render_window;
+
+    //! Menu position x
+    std::uint16_t m_menu_x { 0 };
+
+    //! Menu position y
+    std::uint16_t m_menu_y { 0 };
+
+    //! Interval beetwen menu items
+    std::uint16_t m_menu_step { 0 };
+
+    //! Menu font size
+    std::uint16_t m_size_font { 0 };
+
+    //! Selected menu item number
+    std::int16_t m_main_menu_selected { 0 };
+
+    //! Menu font object
+    std::unique_ptr< ::sf::Font, font_deleter > m_font { nullptr };
+
+    //! Menu items names
+    std::vector< ::sf::Text > m_main_menu;
+
+    //!Menu item text color
+    ::sf::Color m_menu_item_text_color;
+
+    //!Choose menu item text color
+    ::sf::Color m_choose_menu_item_text_color;
+
+    //!Outline menu item text color
+    ::sf::Color m_outline_menu_item_text_color;
 };
 
 } // namespace screen

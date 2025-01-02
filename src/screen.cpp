@@ -2,6 +2,7 @@
 
 #include <screen.h>
 #include <menu.h>
+#include <general_config.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/VideoMode.hpp>

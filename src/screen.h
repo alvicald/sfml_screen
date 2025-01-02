@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include "general_config.h"
 #include <context.h>
 #include <color_changing_screen.h>
 
@@ -102,25 +101,25 @@ private:
     std::uint32_t m_height { 0 };
 
     //! Pointer to main render window
-    std::unique_ptr< ::sf::RenderWindow, render_window_deleter > m_main_window;
+    std::unique_ptr< ::sf::RenderWindow, render_window_deleter > m_main_window { nullptr };
 
     //! Text font
-    std::unique_ptr< ::sf::Font, font_deleter > m_font;
+    std::unique_ptr< ::sf::Font, font_deleter > m_font { nullptr };
 
     //! Statistic update time
-    ::sf::Time m_statistic_update_time;
+    ::sf::Time m_statistic_update_time { ::sf::Time::Zero };
 
     //! Statistic frames count
     std::uint16_t m_statistics_frames_count { 0 };
 
     //! Statistic information text
-    std::unique_ptr< ::sf::Text, text_deleter > m_statistic_text;
+    std::unique_ptr< ::sf::Text, text_deleter > m_statistic_text { nullptr };
 
     //! Menu object
-    std::unique_ptr< Menu, menu_deleter > m_menu;
+    std::unique_ptr< Menu, menu_deleter > m_menu { nullptr };
 
     //! Color changing screen mode
-    ColorChangingScreen m_color_changing_screen;
+    ColorChangingScreen m_color_changing_screen {};
 
     //! Constant time per frame
     static ::sf::Time const TimePerFrame;
