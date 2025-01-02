@@ -11,7 +11,7 @@ if exist %BIN_PATH% (
   rmdir /s /q %BIN_PATH%
 )
 
-cmake -S . -B build && cmake --build build
+cmake -S . -B build && cmake --build build --config Release
 
 if %ERRORLEVEL%==0 (
   echo Build finished.
