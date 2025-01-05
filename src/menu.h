@@ -38,8 +38,12 @@ enum class MenuAlignment
 class Menu
 {
 public:
-    Menu(::sf::RenderWindow& window, float menux, float menuy,
-        std::vector< ::sf::String > const& names, int sizeFont = 60, int step = 80);
+    Menu(::sf::RenderWindow& window,
+        float menux,
+        float menuy,
+        std::vector< ::sf::String > const& names,
+        int sizeFont = 60,
+        int step = 80);
 
     //! Draw menu on render window
     void draw();
@@ -60,6 +64,9 @@ public:
     std::int16_t get_menu_select_number() const;
 
 private:
+    //!Settings of menu items statuses
+    void setInitStatus(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
+
     //!Settings of menu items
     void setInitText(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
 
@@ -99,6 +106,9 @@ private:
 
     //! Menu items names
     std::vector< ::sf::Text > m_main_menu;
+
+    //! Menu items statuses
+    std::vector< ::sf::Text > m_statuses;
 
     //!Menu item text color
     ::sf::Color m_menu_item_text_color;

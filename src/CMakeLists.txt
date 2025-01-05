@@ -12,6 +12,8 @@ set(HDRS_SRCS
 	menu.cpp
 	context.h
 	context.cpp
+        gradient_screen.h
+        gradient_screen.cpp
 )
 
 add_executable(${TARGET} ${HDRS_SRCS})

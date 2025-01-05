@@ -23,6 +23,6 @@ void ColorChangingScreen::draw(::sf::RenderWindow& window)
         window.clear(::sf::Color {m_red, m_green, m_blue});
     }
     else
-        window.clear(::sf::Color{ 0, 0, 0});
+        window.clear(::sf::Color{0, 0, 0});
 }
 } // namespace screen

@@ -2,9 +2,11 @@
 #define SCREEN_H_
 
 #include <memory>
+#include <functional>
 
 #include <context.h>
 #include <color_changing_screen.h>
+#include <gradient_screen.h>
 
 #include <SFML/System/Time.hpp>
 
@@ -39,10 +41,13 @@ private:
     void updateEvent();
 
     //! Update and print time and fps statistic
-    void updateStatistic(::sf::Time elapsedTime);
+    void updateStatistic(::sf::Time);
 
     //! Render all window elements
     void render();
+
+    //! Update all screen modules
+    void update(::sf::Time);
 
 private:
     //! Deleter of sf::RenderWindow pointer
@@ -120,6 +125,12 @@ private:
 
     //! Color changing screen mode
     ColorChangingScreen m_color_changing_screen {};
+
+    //! Gradient screen mode
+    GradientScreen m_gradient_screen;
+
+    //! RenderWindow draw callback function
+    std::function< void(::sf::RenderWindow&) > m_draw_func_ptr { nullptr };
 
     //! Constant time per frame
     static ::sf::Time const TimePerFrame;

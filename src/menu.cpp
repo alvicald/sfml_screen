@@ -40,15 +40,18 @@ Menu::Menu(sf::RenderWindow& window, float menux, float menuy, std::vector< sf::
             if (m_font->loadFromFile(RESOURCE_DIR"/font/showg.TTF"))
             {
                 m_main_menu.resize(names.size());
+                m_statuses.resize(names.size());
 
                 std::uint16_t ypos{ m_menu_y };
                 std::uint32_t name_ind{ 0 };
 
-                for (::sf::Text& menu_el : m_main_menu)
+                for (int i = 0; i < names.size(); ++i)
                 {
-                    setInitText(menu_el, names.at(name_ind++), m_menu_x, ypos);
+                    setInitText(m_main_menu[i], names.at(name_ind), m_menu_x, ypos);
+                    setInitStatus(m_statuses[i], "(OFF)", m_menu_x + names.at(name_ind++).getSize() * m_size_font , ypos);
                     ypos += m_menu_step;
                 }
+
                 m_main_menu.at(m_main_menu_selected).setFillColor(m_choose_menu_item_text_color);
             }
             else
@@ -69,8 +72,11 @@ Menu::Menu(sf::RenderWindow& window, float menux, float menuy, std::vector< sf::
 
 void Menu::draw()
 {
-    for (auto const& menu_el : m_main_menu)
-        m_render_window.draw(menu_el);
+    for (int i = 0; i < m_main_menu.size(); ++i)
+    {
+        m_render_window.draw(m_main_menu.at(i));
+        m_render_window.draw(m_statuses.at(i));
+    }
 }
 
 void Menu::move_up()
@@ -129,6 +135,14 @@ void Menu::align_menu(MenuAlignment align)
 std::int16_t Menu::get_menu_select_number() const
 {
     return m_main_menu_selected;
+}
+
+void Menu::setInitStatus(sf::Text &text, const sf::String &str, float xpos, float ypos)
+{
+    text.setFont(*m_font);
+    text.setString(str);
+    text.setPosition(xpos, ypos);
+    text.setFillColor(::sf::Color::Red);
 }
 
 void Menu::font_deleter::free_font(sf::Font* ptr)

@@ -12,11 +12,12 @@
 
 namespace screen {
 
-    sf::Time const Screen::TimePerFrame { sf::seconds(1.f / 60.f) };
+sf::Time const Screen::TimePerFrame { sf::seconds(1.f / 60.f) };
 
 Screen::Screen(ScreenContext const& context):
     m_width(context.m_screen_width),
-    m_height(context.m_screen_height)
+    m_height(context.m_screen_height),
+    m_gradient_screen(m_width, m_height)
 {
     try
     {
@@ -30,11 +31,12 @@ Screen::Screen(ScreenContext const& context):
                               std::vector< ::sf::String > {"Changing color mode", "Gradient mode"},
                               30,
                               30));
-
         if (m_menu)
         {
             m_menu->align_menu(MenuAlignment::center);
         }
+        else
+            throw std::runtime_error("Menu pointer initialize error.");
 
         if (m_font)
         {
@@ -67,6 +69,8 @@ void Screen::run()
         sf::Time elapsedTime = clock.restart();
 
         updateEvent();
+//        update(elapsedTime);
+
         updateStatistic(elapsedTime);
         render();
 
@@ -105,6 +109,8 @@ void Screen::updateEvent()
                 case 0:
                     m_color_changing_screen.change_state();
                     break;
+                case 1:
+                    break;
                 default:
                     break;
                 }
@@ -137,9 +143,15 @@ void Screen::updateStatistic(sf::Time elapsedTime)
 void Screen::render()
 {
     m_color_changing_screen.draw(*m_main_window);
+//    m_gradient_screen.draw(*m_main_window);
     m_main_window->draw(*m_statistic_text);
     m_menu->draw();
     m_main_window->display();
+}
+
+void Screen::update(sf::Time elapsed)
+{
+    m_gradient_screen.update();
 }
 
 void Screen::render_window_deleter::free_screen(::sf::RenderWindow* ptr)
