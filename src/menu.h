@@ -4,6 +4,7 @@
 #include <memory>
 #include <cstdint>
 #include <vector>
+#include <map>
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/String.hpp>
@@ -38,7 +39,7 @@ enum class MenuAlignment
 class Menu
 {
 public:
-    Menu(::sf::RenderWindow& window,
+    Menu(sf::RenderWindow& window,
         float menux,
         float menuy,
         std::vector< ::sf::String > const& names,
@@ -55,7 +56,7 @@ public:
     void move_down();
 
     //! Set colors of menu
-    void setColorTextMenu(::sf::Color menColor, ::sf::Color ChoColor, ::sf::Color BordColor);
+    void setColorTextMenu(sf::Color menColor, sf::Color ChoColor, sf::Color BordColor);
 
     //! Align menu position
     void align_menu(MenuAlignment align);
@@ -63,28 +64,45 @@ public:
     //! Get current selected menu item number
     std::int16_t get_menu_select_number() const;
 
+    //! Set mode status
+    void set_mode_status(std::int16_t selected_number);
+
 private:
     //!Settings of menu items statuses
-    void setInitStatus(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
+    void setInitStatus(sf::Text& text, sf::String const& str, float xpos, float ypos);
 
     //!Settings of menu items
-    void setInitText(::sf::Text& text, ::sf::String const& str, float xpos, float ypos);
+    void setInitText(sf::Text& text, sf::String const& str, float xpos, float ypos);
 
     //! Deleter of sf::Font pointer
     struct font_deleter
     {
-        void operator()(::sf::Font* ptr)
+        void operator()(sf::Font* ptr)
         {
             if (ptr != nullptr)
                 free_font(ptr);
         }
     private:
-        void free_font(::sf::Font*);
+        void free_font(sf::Font*);
+    };
+
+    //! State of current mode status
+    struct status_state;
+
+    struct status_state_deleter
+    {
+        void operator()(status_state* ptr)
+        {
+            if (ptr != nullptr)
+                free_status_state(ptr);
+        }
+    private:
+        void free_status_state(status_state*);
     };
 
 private:
     //! Reference to main render window
-    ::sf::RenderWindow& m_render_window;
+    sf::RenderWindow& m_render_window;
 
     //! Menu position x
     std::uint16_t m_menu_x { 0 };
@@ -102,22 +120,22 @@ private:
     std::int16_t m_main_menu_selected { 0 };
 
     //! Menu font object
-    std::unique_ptr< ::sf::Font, font_deleter > m_font { nullptr };
+    std::unique_ptr< sf::Font, font_deleter > m_font { nullptr };
 
     //! Menu items names
-    std::vector< ::sf::Text > m_main_menu;
+    std::vector< sf::Text > m_main_menu;
 
     //! Menu items statuses
-    std::vector< ::sf::Text > m_statuses;
+    std::map< std::int16_t, std::unique_ptr< status_state, status_state_deleter > > m_statuses;
 
     //!Menu item text color
-    ::sf::Color m_menu_item_text_color;
+    sf::Color m_menu_item_text_color;
 
     //!Choose menu item text color
-    ::sf::Color m_choose_menu_item_text_color;
+    sf::Color m_choose_menu_item_text_color;
 
     //!Outline menu item text color
-    ::sf::Color m_outline_menu_item_text_color;
+    sf::Color m_outline_menu_item_text_color;
 };
 
 } // namespace screen

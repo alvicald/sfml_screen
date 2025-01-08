@@ -69,7 +69,7 @@ void Screen::run()
         sf::Time elapsedTime = clock.restart();
 
         updateEvent();
-//        update(elapsedTime);
+        update(elapsedTime);
 
         updateStatistic(elapsedTime);
         render();
@@ -110,10 +110,12 @@ void Screen::updateEvent()
                     m_color_changing_screen.change_state();
                     break;
                 case 1:
+                    m_gradient_screen.change_state();
                     break;
                 default:
                     break;
                 }
+                m_menu->set_mode_status(m_menu->get_menu_select_number());
                 break;
             default:
                 break;
@@ -142,8 +144,9 @@ void Screen::updateStatistic(sf::Time elapsedTime)
 
 void Screen::render()
 {
+    m_main_window->clear(::sf::Color{0, 0, 0});
     m_color_changing_screen.draw(*m_main_window);
-//    m_gradient_screen.draw(*m_main_window);
+    m_gradient_screen.draw(*m_main_window);
     m_main_window->draw(*m_statistic_text);
     m_menu->draw();
     m_main_window->display();
@@ -151,7 +154,8 @@ void Screen::render()
 
 void Screen::update(sf::Time elapsed)
 {
-    m_gradient_screen.update();
+//    m_gradient_screen.update();
+    m_gradient_screen.set_colors(m_color_changing_screen.get_color());
 }
 
 void Screen::render_window_deleter::free_screen(::sf::RenderWindow* ptr)

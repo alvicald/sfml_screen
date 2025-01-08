@@ -4,10 +4,13 @@
 #include <cstdint>
 #include <tuple>
 
+#include <SFML/Graphics/Color.hpp>
+
 namespace sf {
 
 //! sf::RenderWindow forward declaration
 class RenderWindow;
+
 }
 
 namespace screen {
@@ -21,15 +24,11 @@ public:
     //! Draw the current color on Render Window
     void draw(::sf::RenderWindow&);
 
+    ::sf::Color const& get_color() const noexcept;
+
 private:
-    //! Red color
-    std::uint8_t m_red { 255 };
-
-    //! Green color
-    std::uint8_t m_green { 0 };
-
-    //! Blue color
-    std::uint8_t m_blue { 0 };
+    //! Colors(red, green, blue, alpha)
+    ::sf::Color m_colors { 255, 0, 0 };
 
     //! State flag of change color working
     bool m_enable_multicolored_screen { false };

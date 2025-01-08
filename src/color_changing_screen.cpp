@@ -13,16 +13,20 @@ void ColorChangingScreen::draw(::sf::RenderWindow& window)
 {
     if (m_enable_multicolored_screen)
     {
-        if (m_red == 255 && m_green <= 255 && m_blue == 0) ++m_green;
-        if (m_red >= 0 && m_green == 255 && m_blue == 0) --m_red;
-        if (m_red == 0 && m_green == 255 && m_blue <= 255) ++m_blue;
-        if (m_red == 0 && m_green <= 255 && m_blue == 255) --m_green;
-        if (m_red <= 255 && m_green == 0 && m_blue == 255) ++m_red;
-        if (m_red == 255 && m_green == 0 && m_blue >= 0) --m_blue;
+        if (m_colors.r == 255 && m_colors.g <= 255 && m_colors.b == 0) ++m_colors.g;
+        if (m_colors.r >= 0 && m_colors.g == 255 && m_colors.b == 0) --m_colors.r;
+        if (m_colors.r == 0 && m_colors.g == 255 && m_colors.b <= 255) ++m_colors.b;
+        if (m_colors.r == 0 && m_colors.g <= 255 && m_colors.b == 255) --m_colors.g;
+        if (m_colors.r <= 255 && m_colors.g == 0 && m_colors.b == 255) ++m_colors.r;
+        if (m_colors.r == 255 && m_colors.g == 0 && m_colors.b >= 0) --m_colors.b;
 
-        window.clear(::sf::Color {m_red, m_green, m_blue});
+        window.clear(m_colors);
     }
-    else
-        window.clear(::sf::Color{0, 0, 0});
 }
+
+sf::Color const& ColorChangingScreen::get_color() const noexcept
+{
+    return m_colors;
+}
+
 } // namespace screen

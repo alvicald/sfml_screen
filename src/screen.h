@@ -41,49 +41,49 @@ private:
     void updateEvent();
 
     //! Update and print time and fps statistic
-    void updateStatistic(::sf::Time);
+    void updateStatistic(sf::Time);
 
     //! Render all window elements
     void render();
 
     //! Update all screen modules
-    void update(::sf::Time);
+    void update(sf::Time);
 
 private:
     //! Deleter of sf::RenderWindow pointer
     struct render_window_deleter
     {
-        void operator()(::sf::RenderWindow* ptr) noexcept
+        void operator()(sf::RenderWindow* ptr) noexcept
         {
             if (ptr != nullptr)
                 free_screen(ptr);
         }
     private:
-        void free_screen(::sf::RenderWindow*);
+        void free_screen(sf::RenderWindow*);
     };
 
     //! Deleter of sf::Text pointer
     struct text_deleter
     {
-        void operator()(::sf::Text* ptr) noexcept
+        void operator()(sf::Text* ptr) noexcept
         {
             if (ptr != nullptr)
                 free_text(ptr);
         }
     private:
-        void free_text(::sf::Text*);
+        void free_text(sf::Text*);
     };
 
     //! Deleter of sf::Font pointer
     struct font_deleter
     {
-        void operator()(::sf::Font* ptr) noexcept
+        void operator()(sf::Font* ptr) noexcept
         {
             if (ptr != nullptr)
                 free_font(ptr);
         }
     private:
-        void free_font(::sf::Font*);
+        void free_font(sf::Font*);
     };
 
     //! Deleter of sf::Font pointer
@@ -106,19 +106,19 @@ private:
     std::uint32_t m_height { 0 };
 
     //! Pointer to main render window
-    std::unique_ptr< ::sf::RenderWindow, render_window_deleter > m_main_window { nullptr };
+    std::unique_ptr< sf::RenderWindow, render_window_deleter > m_main_window { nullptr };
 
     //! Text font
-    std::unique_ptr< ::sf::Font, font_deleter > m_font { nullptr };
+    std::unique_ptr< sf::Font, font_deleter > m_font { nullptr };
 
     //! Statistic update time
-    ::sf::Time m_statistic_update_time { ::sf::Time::Zero };
+    sf::Time m_statistic_update_time { sf::Time::Zero };
 
     //! Statistic frames count
     std::uint16_t m_statistics_frames_count { 0 };
 
     //! Statistic information text
-    std::unique_ptr< ::sf::Text, text_deleter > m_statistic_text { nullptr };
+    std::unique_ptr< sf::Text, text_deleter > m_statistic_text { nullptr };
 
     //! Menu object
     std::unique_ptr< Menu, menu_deleter > m_menu { nullptr };
@@ -129,11 +129,8 @@ private:
     //! Gradient screen mode
     GradientScreen m_gradient_screen;
 
-    //! RenderWindow draw callback function
-    std::function< void(::sf::RenderWindow&) > m_draw_func_ptr { nullptr };
-
     //! Constant time per frame
-    static ::sf::Time const TimePerFrame;
+    static sf::Time const TimePerFrame;
 };
 
 } // namespace screen
