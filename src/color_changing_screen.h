@@ -22,13 +22,13 @@ public:
     void change_state() noexcept;
 
     //! Draw the current color on Render Window
-    void draw(::sf::RenderWindow&);
+    void draw(sf::RenderWindow&);
 
-    ::sf::Color const& get_color() const noexcept;
+    sf::Color const& get_color() const noexcept;
 
 private:
     //! Colors(red, green, blue, alpha)
-    ::sf::Color m_colors { 255, 0, 0 };
+    sf::Color m_colors { sf::Color::Red };
 
     //! State flag of change color working
     bool m_enable_multicolored_screen { false };

@@ -21,8 +21,8 @@ GradientScreen::GradientScreen(std::uint32_t width, std::uint32_t height):
             if(!m_shader->loadFromFile(RESOURCE_DIR"/shaders/gradient.vert", RESOURCE_DIR"/shaders/gradient.frag"))
                 throw std::runtime_error("Shader load error.");
 
-            m_shader->setUniform("color1", static_cast<sf::Glsl::Vec4>(sf::Color::Black));
-            m_shader->setUniform("color2", static_cast<::sf::Glsl::Vec4>(sf::Color::White));
+            m_shader->setUniform("color1", static_cast< sf::Glsl::Vec4 >(sf::Color::Black));
+            m_shader->setUniform("color2", static_cast< sf::Glsl::Vec4 >(sf::Color::White));
 
             m_quad[0].position = sf::Vector2f(-1.f, -1.f);
             m_quad[1].position = sf::Vector2f(1.f, -1.f);

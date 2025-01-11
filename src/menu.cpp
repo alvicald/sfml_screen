@@ -18,15 +18,22 @@ struct Menu::status_state
     ::sf::Text status_state;
 };
 
-void Menu::setInitText(sf::Text& text, sf::String const& str, float xpos, float ypos)
+void Menu::set_init_text(sf::Text& text, sf::String const& str, float xpos, float ypos)
 {
-    text.setFont(*m_font);
-    text.setFillColor(m_menu_item_text_color);
-    text.setString(str);
-    text.setCharacterSize(m_size_font);
-    text.setPosition(xpos, ypos);
-    text.setOutlineThickness(3);
-    text.setOutlineColor(m_outline_menu_item_text_color);
+    try
+    {
+        text.setFont(*m_font);
+        text.setFillColor(m_menu_item_text_color);
+        text.setString(str);
+        text.setCharacterSize(m_size_font);
+        text.setPosition(xpos, ypos);
+        text.setOutlineThickness(3);
+        text.setOutlineColor(m_outline_menu_item_text_color);
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << '\n';
+    }
 }
 
 Menu::Menu(sf::RenderWindow& window, float menux, float menuy, std::vector< sf::String > const& names, int sizeFont, int step):
@@ -38,7 +45,7 @@ Menu::Menu(sf::RenderWindow& window, float menux, float menuy, std::vector< sf::
     m_main_menu_selected(0),
     m_menu_item_text_color(sf::Color(50, 50, 50)),
     m_choose_menu_item_text_color(sf::Color(255, 150, 0)),
-    m_outline_menu_item_text_color(sf::Color(0, 0, 255))
+    m_outline_menu_item_text_color(sf::Color::Blue)
 {
     try
     {
@@ -55,9 +62,9 @@ Menu::Menu(sf::RenderWindow& window, float menux, float menuy, std::vector< sf::
 
                 for (int i = 0; i < names.size(); ++i)
                 {
-                    setInitText(m_main_menu.at(i), names.at(name_ind++), m_menu_x, ypos);
+                    set_init_text(m_main_menu.at(i), names.at(name_ind++), m_menu_x, ypos);
                     m_statuses.emplace(i, std::unique_ptr< status_state, status_state_deleter >(new status_state));
-                    setInitStatus(m_statuses.at(i)->status_state, "(OFF)", m_menu_x + m_main_menu.at(i).getLocalBounds().width / 2, ypos);
+                    set_init_status(m_statuses.at(i)->status_state, "(OFF)", m_menu_x + m_main_menu.at(i).getLocalBounds().width / 2, ypos);
                     ypos += m_menu_step;
                 }
 
@@ -169,26 +176,40 @@ std::int16_t Menu::get_menu_select_number() const
 
 void Menu::set_mode_status(int16_t selected_number)
 {
-    m_statuses.at(selected_number)->is_active = !m_statuses.at(selected_number)->is_active;
+    try
+    {
+        m_statuses.at(selected_number)->is_active = !m_statuses.at(selected_number)->is_active;
 
-    if (m_statuses.at(selected_number)->is_active)
-    {
-        m_statuses.at(selected_number)->status_state.setString("(ON)");
-        m_statuses.at(selected_number)->status_state.setFillColor(::sf::Color::Green);
+        if (m_statuses.at(selected_number)->is_active)
+        {
+            m_statuses.at(selected_number)->status_state.setString("(ON)");
+            m_statuses.at(selected_number)->status_state.setFillColor(::sf::Color::Green);
+        }
+        else
+        {
+            m_statuses.at(selected_number)->status_state.setString("(OFF)");
+            m_statuses.at(selected_number)->status_state.setFillColor(::sf::Color::Red);
+        }
     }
-    else
+    catch (std::exception& e)
     {
-        m_statuses.at(selected_number)->status_state.setString("(OFF)");
-        m_statuses.at(selected_number)->status_state.setFillColor(::sf::Color::Red);
+        std::cout << e.what() << '\n';
     }
 }
 
-void Menu::setInitStatus(sf::Text &text, const sf::String &str, float xpos, float ypos)
+void Menu::set_init_status(sf::Text &text, const sf::String &str, float xpos, float ypos)
 {
-    text.setFont(*m_font);
-    text.setString(str);
-    text.setPosition(xpos, ypos);
-    text.setFillColor(::sf::Color::Red);
+    try
+    {
+        text.setFont(*m_font);
+        text.setString(str);
+        text.setPosition(xpos, ypos);
+        text.setFillColor(::sf::Color::Red);
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << '\n';
+    }
 }
 
 void Menu::font_deleter::free_font(sf::Font* ptr)

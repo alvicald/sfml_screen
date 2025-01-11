@@ -55,7 +55,7 @@ private:
     sf::VertexArray m_quad;
 
     //! Interpolar koefficient for move a gradient
-    float m_interpolar_koef { 0.f};
+    float m_interpolar_koef { 0.f };
 
     //! Enable/disable gradient screen flag
     bool m_enable_gradient_screen { false };

@@ -42,7 +42,7 @@ public:
     Menu(sf::RenderWindow& window,
         float menux,
         float menuy,
-        std::vector< ::sf::String > const& names,
+        std::vector< sf::String > const& names,
         int sizeFont = 60,
         int step = 80);
 
@@ -55,9 +55,6 @@ public:
     //! Down of choose of menu item
     void move_down();
 
-    //! Set colors of menu
-    void setColorTextMenu(sf::Color menColor, sf::Color ChoColor, sf::Color BordColor);
-
     //! Align menu position
     void align_menu(MenuAlignment align);
 
@@ -69,10 +66,10 @@ public:
 
 private:
     //!Settings of menu items statuses
-    void setInitStatus(sf::Text& text, sf::String const& str, float xpos, float ypos);
+    void set_init_status(sf::Text& text, sf::String const& str, float xpos, float ypos);
 
     //!Settings of menu items
-    void setInitText(sf::Text& text, sf::String const& str, float xpos, float ypos);
+    void set_init_text(sf::Text& text, sf::String const& str, float xpos, float ypos);
 
     //! Deleter of sf::Font pointer
     struct font_deleter

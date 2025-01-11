@@ -21,20 +21,21 @@ Screen::Screen(ScreenContext const& context):
 {
     try
     {
-        auto screen_style { context.m_is_fullscreen == true ? static_cast< std::uint32_t >(::sf::Style::Fullscreen) : static_cast<std::uint32_t>(::sf::Style::Default) };
-        m_main_window.reset(new ::sf::RenderWindow(::sf::VideoMode(m_width, m_height), "Screen", screen_style));
-        m_statistic_text.reset(new ::sf::Text);
-        m_font.reset(new ::sf::Font);
-        m_menu.reset(new Menu(*m_main_window,
+        auto screen_style { context.m_is_fullscreen == true 
+            ? static_cast< std::uint32_t >(sf::Style::Fullscreen) 
+            : static_cast< std::uint32_t >(sf::Style::Default) };
+
+        m_main_window = std::unique_ptr< sf::RenderWindow, render_window_deleter >(new sf::RenderWindow(sf::VideoMode(m_width, m_height), "Screen", screen_style));
+        m_statistic_text = std::unique_ptr< sf::Text, text_deleter >(new sf::Text);
+        m_font = std::unique_ptr< sf::Font, font_deleter >(new sf::Font);
+        m_menu = std::unique_ptr< Menu, menu_deleter >(new Menu(*m_main_window,
                               m_width / 2,
                               m_height / 2,
-                              std::vector< ::sf::String > {"Changing color mode", "Gradient mode"},
+                              std::vector< sf::String > {"Changing color mode", "Gradient mode"},
                               30,
                               30));
         if (m_menu)
-        {
             m_menu->align_menu(MenuAlignment::center);
-        }
         else
             throw std::runtime_error("Menu pointer initialize error.");
 
@@ -82,28 +83,28 @@ void Screen::run()
 
 void Screen::updateEvent()
 {
-    ::sf::Event ev;
+    sf::Event ev;
 
     while (m_main_window->pollEvent(ev))
     {
         switch (ev.type)
         {
-        case ::sf::Event::Closed:
+        case sf::Event::Closed:
             m_main_window->close();
             break;
-        case ::sf::Event::KeyReleased:
+        case sf::Event::KeyReleased:
             switch (ev.key.code)
             {
-            case ::sf::Keyboard::Escape:
+            case sf::Keyboard::Escape:
                 m_main_window->close();
                 break;
-            case ::sf::Keyboard::Up:
+            case sf::Keyboard::Up:
                 m_menu->move_up();
                 break;
-            case ::sf::Keyboard::Down:
+            case sf::Keyboard::Down:
                 m_menu->move_down();
                 break;
-            case ::sf::Keyboard::Return:
+            case sf::Keyboard::Return:
                 switch (m_menu->get_menu_select_number())
                 {
                 case 0:
@@ -144,26 +145,33 @@ void Screen::updateStatistic(sf::Time elapsedTime)
 
 void Screen::render()
 {
-    m_main_window->clear(::sf::Color{0, 0, 0});
-    m_color_changing_screen.draw(*m_main_window);
-    m_gradient_screen.draw(*m_main_window);
-    m_main_window->draw(*m_statistic_text);
-    m_menu->draw();
-    m_main_window->display();
+    try
+    {
+        m_main_window->clear(::sf::Color{ 0, 0, 0 });
+        m_color_changing_screen.draw(*m_main_window);
+        m_gradient_screen.draw(*m_main_window);
+        m_main_window->draw(*m_statistic_text);
+        m_menu->draw();
+        m_main_window->display();
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << '\n';
+    }
 }
 
 void Screen::update(sf::Time elapsed)
 {
-//    m_gradient_screen.update();
+    m_gradient_screen.update();
     m_gradient_screen.set_colors(m_color_changing_screen.get_color());
 }
 
-void Screen::render_window_deleter::free_screen(::sf::RenderWindow* ptr)
+void Screen::render_window_deleter::free_screen(sf::RenderWindow* ptr)
 {
     delete ptr;
 }
 
-void Screen::text_deleter::free_text(::sf::Text* ptr)
+void Screen::text_deleter::free_text(sf::Text* ptr)
 {
     delete ptr;
 }

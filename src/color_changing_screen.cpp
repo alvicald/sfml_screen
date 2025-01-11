@@ -9,7 +9,7 @@ void ColorChangingScreen::change_state() noexcept
     m_enable_multicolored_screen = !m_enable_multicolored_screen;
 }
 
-void ColorChangingScreen::draw(::sf::RenderWindow& window)
+void ColorChangingScreen::draw(sf::RenderWindow& window)
 {
     if (m_enable_multicolored_screen)
     {
