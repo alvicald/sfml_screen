@@ -31,7 +31,11 @@ Screen::Screen(ScreenContext const& context):
         m_menu = std::unique_ptr< Menu, menu_deleter >(new Menu(*m_main_window,
                               m_width / 2,
                               m_height / 2,
-                              std::vector< sf::String > {"Changing color mode", "Gradient mode"},
+                              std::vector< sf::String >
+                              {"Changing color mode",
+                               "Gradient mode",
+                               "Moving gradient mode"
+                              },
                               30,
                               30));
         if (m_menu)
@@ -111,7 +115,10 @@ void Screen::updateEvent()
                     m_color_changing_screen.change_state();
                     break;
                 case 1:
-                    m_gradient_screen.change_state();
+                    m_gradient_screen.change_state_of_gradient();
+                    break;
+                case 2:
+                    m_gradient_screen.change_state_of_moving_gradient();
                     break;
                 default:
                     break;

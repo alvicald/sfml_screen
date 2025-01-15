@@ -30,7 +30,10 @@ public:
     void draw(sf::RenderWindow&);
 
     //! On/off gradient
-    void change_state();
+    void change_state_of_gradient();
+
+    //! On/off moving gradient
+    void change_state_of_moving_gradient();
 
     //! Set colors
     void set_colors(sf::Color const&);
@@ -59,6 +62,9 @@ private:
 
     //! Enable/disable gradient screen flag
     bool m_enable_gradient_screen { false };
+
+    //! Enable/disable moving gradient screen flag
+    bool m_enable_moving_gradient_screen { false };
 };
 
 } // namespace screen

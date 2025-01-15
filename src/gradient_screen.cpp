@@ -21,9 +21,6 @@ GradientScreen::GradientScreen(std::uint32_t width, std::uint32_t height):
             if(!m_shader->loadFromFile(RESOURCE_DIR"/shaders/gradient.vert", RESOURCE_DIR"/shaders/gradient.frag"))
                 throw std::runtime_error("Shader load error.");
 
-            m_shader->setUniform("color1", static_cast< sf::Glsl::Vec4 >(sf::Color::Black));
-            m_shader->setUniform("color2", static_cast< sf::Glsl::Vec4 >(sf::Color::White));
-
             m_quad[0].position = sf::Vector2f(-1.f, -1.f);
             m_quad[1].position = sf::Vector2f(1.f, -1.f);
             m_quad[2].position = sf::Vector2f(1.f, 1.f);
@@ -45,11 +42,14 @@ GradientScreen::GradientScreen(std::uint32_t width, std::uint32_t height):
 
 void GradientScreen::update()
 {
-    m_shader->setUniform("time", m_interpolar_koef);
-    m_interpolar_koef += 0.01;
+    if (m_enable_moving_gradient_screen)
+    {
+        m_shader->setUniform("interpolate_koef", m_interpolar_koef);
+        m_interpolar_koef += 0.01;
 
-    if (m_interpolar_koef >= 2)
-        m_interpolar_koef = 0;
+        if (m_interpolar_koef >= 2)
+            m_interpolar_koef = 0;
+    }
 }
 
 void GradientScreen::draw(sf::RenderWindow& window)
@@ -58,9 +58,15 @@ void GradientScreen::draw(sf::RenderWindow& window)
         window.draw(m_quad, m_shader.get());
 }
 
-void GradientScreen::change_state()
+void GradientScreen::change_state_of_gradient()
 {
     m_enable_gradient_screen = !m_enable_gradient_screen;
+}
+
+void GradientScreen::change_state_of_moving_gradient()
+{
+    m_enable_moving_gradient_screen = !m_enable_moving_gradient_screen;
+    m_shader->setUniform("move_gradient", m_enable_moving_gradient_screen);
 }
 
 void GradientScreen::set_colors(sf::Color const& colors)
