@@ -54,7 +54,7 @@ void GradientScreen::update()
 
 void GradientScreen::draw(sf::RenderWindow& window)
 {
-    if (m_enable_gradient_screen)
+    if (m_enable_gradient_screen || m_enable_moving_gradient_screen)
         window.draw(m_quad, m_shader.get());
 }
 
