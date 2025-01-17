@@ -58,11 +58,10 @@ Menu::Menu(sf::RenderWindow& window, float menux, float menuy, std::vector< sf::
                 m_main_menu.resize(names.size());
 
                 std::uint16_t ypos{ m_menu_y };
-                std::uint32_t name_ind{ 0 };
 
                 for (int i = 0; i < names.size(); ++i)
                 {
-                    set_init_text(m_main_menu.at(i), names.at(name_ind++), m_menu_x, ypos);
+                    set_init_text(m_main_menu.at(i), names.at(i), m_menu_x, ypos);
                     m_statuses.emplace(i, std::unique_ptr< status_state, status_state_deleter >(new status_state));
                     set_init_status(m_statuses.at(i)->status_state, "(OFF)", m_menu_x + m_main_menu.at(i).getLocalBounds().width / 2, ypos);
                     ypos += m_menu_step;
